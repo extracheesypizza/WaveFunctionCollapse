@@ -8,8 +8,7 @@ class Cell
    private:
     Tile* tile_ = nullptr;
     vector<Tile*> possibleTiles_;
-    int x_;
-    int y_;
+    int x_, y_;
     bool cellSet_ = 0;
 
    public:

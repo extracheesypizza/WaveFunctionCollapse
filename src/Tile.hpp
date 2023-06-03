@@ -22,12 +22,11 @@ class Tile
 {
    private:
     vector<string> sockets_ = {};
-    sf::Texture texture_;
+    sf::Texture* texture_ = nullptr;
     int rotation_ = 0;
 
    public:
     Tile(){};
-    Tile(sf::Texture texture) : texture_(texture) { cout << "TILE" << endl; };
 
     // position
     void setPosition(int x, int y);
@@ -39,8 +38,8 @@ class Tile
     void printSockets() const;
 
     // texture
-    void setTexture(sf::Texture t);
-    sf::Texture getTexture() const;
+    void setTexture(sf::Texture* t);
+    sf::Texture* getTexture() const;
 
     // rotation
     void rotate(int i);

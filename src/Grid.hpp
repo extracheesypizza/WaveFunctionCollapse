@@ -1,16 +1,15 @@
 #ifndef GRID_H
 #define GRID_H
 
-#include <vector>
-
 #include "Cell.hpp"
-#include "TileCollection.hpp"
 
 class Grid
 {
    private:
     vector<vector<Cell*>> grid_;
     TileCollection* tc_;
+    Cell* toDraw_ = nullptr;
+    vector<sf::RectangleShape*> buffer_;
 
    public:
     Grid(int x, int y, TileCollection& tc);
@@ -19,6 +18,9 @@ class Grid
     int getYSize() const;
 
     Cell* getCell(int x, int y);
+    Cell* getCellToDraw() const { return toDraw_; }
+
+    void drawGrid(sf::RenderWindow* w);
 
     Cell* getLeastEntropy(bool& needToExecute);
     void setCell(Cell* c);

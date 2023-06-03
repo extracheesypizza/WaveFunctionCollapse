@@ -1,7 +1,5 @@
 #include "Tile.hpp"
 
-using namespace std;
-
 //  Tile
 //  Has 4 sockets
 //
@@ -13,7 +11,7 @@ using namespace std;
 // has an image associated with it
 // has 4 sockets in form of ["North", "East", "South", "West"]
 
-void Tile::setTexture(sf::Texture t) { texture_ = t; }
+void Tile::setTexture(sf::Texture* t) { texture_ = t; }
 
 // sockets
 void Tile::setSockets(vector<string> socks) { sockets_ = socks; }
@@ -27,7 +25,7 @@ void Tile::printSockets() const
         cout << sockets_[i] << " ";
 }
 
-sf::Texture Tile::getTexture() const { return texture_; }
+sf::Texture* Tile::getTexture() const { return texture_; }
 
 void Tile::rotate(int i)
 {

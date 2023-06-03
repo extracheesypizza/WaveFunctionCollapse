@@ -1,7 +1,7 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
-#include "Render.hpp"
+#include "Grid.hpp"
 
 class Application
 {

@@ -5,8 +5,7 @@ project(WFC LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(WFC main.cpp Application.cpp Cell.cpp Grid.cpp Render.cpp Tile.cpp TileCollection.cpp)
-FILE(COPY ../res/arial.ttf DESTINATION "${CMAKE_BINARY_DIR}")
+add_executable(WFC main.cpp Application.cpp Cell.cpp Grid.cpp  Tile.cpp TileCollection.cpp)
 
 FILE(GLOB_RECURSE LibFiles "*.hpp")
 add_custom_target(headers SOURCES ${LibFiles})

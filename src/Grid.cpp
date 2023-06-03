@@ -13,20 +13,51 @@ Grid::Grid(int x, int y, TileCollection& tc)
     }
 }
 
+void Grid::drawGrid(sf::RenderWindow* window)
+{
+    window->clear(sf::Color::White);
+
+    int ySize = getYSize();
+    int xSize = getXSize();
+
+    float width = window->getSize().x / float(xSize);
+
+    sf::Vector2f vec;
+    vec.x = width;
+    vec.y = width;
+
+    Cell* cur = toDraw_;
+
+    if(cur->isSet() == 1)
+    {
+        sf::RectangleShape* r = new sf::RectangleShape(vec);
+
+        r->setOrigin(r->getSize().x / 2, r->getSize().y / 2);
+        r->setPosition(sf::Vector2f(width * cur->getX() + width / 2, width * cur->getY() + width / 2));
+
+        sf::Texture* temp = cur->getTile()->getTexture();
+        r->setTexture(temp);
+        r->rotate(cur->getTile()->getRotation() * 90);
+
+        buffer_.push_back(r);
+    }
+
+    for(int i = 0; i < buffer_.size(); i++)  //
+        window->draw(*buffer_[i]);
+
+    window->display();
+}
+
 void Grid::execute(bool& needToExecute)
 {
     Cell* cur = getLeastEntropy(needToExecute);
 
     if(cur == nullptr)
-    {
         needToExecute = false;
-        return;
-    }
+
     else if(cur->getEntropy() == 0 && needToExecute == true)
-    {
         startOver();
-        return;
-    }
+
     else
     {
         cur->setRandomTile();
@@ -50,7 +81,12 @@ void Grid::startOver()
     int x = grid_[0].size();
     int y = grid_.size();
 
-    // deallocate memory
+    // deallocate frame buffer memory
+    for(auto el : buffer_)  //
+        delete el;
+    buffer_.clear();
+
+    // deallocate grid cell memory
     for(int i = 0; i < y; i++)      //
         for(int j = 0; j < x; j++)  //
             delete grid_[i][j];
@@ -73,9 +109,7 @@ Cell* Grid::getLeastEntropy(bool& needToExecute)
     needToExecute = false;
 
     for(int i = 0; i < grid_.size(); i++)
-    {
         for(int j = 0; j < grid_[i].size(); j++)
-        {
             if(grid_[i][j]->isSet() == 0)
             {
                 needToExecute = true;
@@ -90,14 +124,13 @@ Cell* Grid::getLeastEntropy(bool& needToExecute)
                 if(tempSize == leastEntropy)
                     pool.push_back(grid_[i][j]);
             }
-        }
-    }
 
     int poolSize = pool.size();
     if(poolSize > 0)
     {
         int r = rand() % (poolSize);
-        return pool[r];
+        toDraw_ = pool[r];
+        return toDraw_;
     }
     else
         return nullptr;
@@ -218,6 +251,8 @@ void Grid::pickFirstCellRandomly()
     cur->getPossibleTiles()->size();
     cur->setTile(starting);
     cur->setSetStatus(true);
+
+    toDraw_ = cur;
 
     updateEntropyCell(cur);
 }

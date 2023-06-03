@@ -9,6 +9,7 @@ class TileCollection
 {
    private:
     vector<Tile> possibleTiles_;
+    vector<sf::Texture*> textures_;
 
    public:
     TileCollection();
